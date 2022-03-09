@@ -10,13 +10,21 @@ Users:
 <!--<ul th:if="${users != null}">-->
 <!--    <li th:each="u : ${users}" th:text="${u.name}"></li>-->
 <!--</ul>-->
+<a href="/items">view  all Items</a>
 <a href="/addUser">Add User</a>
+
 <table>
+<!--    <form action="/searchUser" method="post">-->
+<!--        <input type="text" name="keyword" placeholder="userSearch">-->
+<!--        <input type="submit" value="search">-->
+<!--    </form>-->
     <tr>
         <th>id</th>
         <th>name</th>
         <th>surname</th>
         <th>email</th>
+        <th>items</th>
+        <th>action</th>
 
     </tr>
     <tr th:each="user:${users}">
@@ -24,6 +32,8 @@ Users:
         <td th:text="${user.name}"></td>
         <td th:text="${user.surname}"></td>
         <td th:text="${user.email}"></td>
+        <td ><a th:href="@{'/items/byUser/' + ${user.id}}">view user items</a></td>
+
         <td><a th:href="@{'/deleteUser/' + ${user.id}}">delete</a> | <a th:href="@{'/editUser/' + ${user.id}}">edit</a> </td>
     </tr>
 </table>

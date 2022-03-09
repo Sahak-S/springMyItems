@@ -1,5 +1,6 @@
 package com.example.springmyitems.entity;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,16 +13,18 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "user")
-public class User {
+@Table(name = "item")
+public class Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    private String name;
-    private String surname;
-    private String email;
-    private String password;
-    private String phone;
+    private String title;
+    private double price;
+    private String description;
+    private String picUrl;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private User user;
+    @ManyToOne
+    private Category category;
 }
