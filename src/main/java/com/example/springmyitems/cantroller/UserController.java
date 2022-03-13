@@ -1,29 +1,24 @@
 package com.example.springmyitems.cantroller;
 
 import com.example.springmyitems.entity.User;
-import com.example.springmyitems.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.springmyitems.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
-
-import javax.management.relation.Role;
-import java.awt.print.Pageable;
-import java.util.List;
-import java.util.Optional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
-@Service
+@RequiredArgsConstructor
 public class UserController {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserService userService;
 
     @GetMapping("/deleteUser/{id}")
     public String deleteUser(@PathVariable("id") int id) {
-        userRepository.deleteById(id);
+        userService.deleteById(id);
         return "redirect:/";
     }
 
@@ -32,28 +27,27 @@ public class UserController {
         return "saveUser";
     }
 
-    @PostMapping("/addUser")
+    @PostMapping("/user/add")
     public String addUser(@ModelAttribute User user) {
-        userRepository.save(user);
+        userService.save(user);
         return "redirect:/";
     }
 
     @GetMapping("/editUser/{id}")
-    public String editUserPage(ModelMap map, @PathVariable("id") int id) {
-        Optional<User> userById = userRepository.findById(id);
-        if (userById.isPresent()) {
-            map.addAttribute("user", userById.get());
-            return "saveUser";
-        } else {
-            return "redirect:/";
-        }
+    public String editUserPage(ModelMap map,
+                               @PathVariable("id") int id) {
+        map.addAttribute("user", userService.findById(id));
+        return "saveUser";
+
     }
 
-    @GetMapping("/searchUsers")
-    public String searchUser(@ModelAttribute User user) {
-        userRepository.searchUserByName("keyword");
-        return "main";
-    }
+
+
+//    @GetMapping("/searchUsers")
+//    public String searchUser(@ModelAttribute User user) {
+//        userRepository.searchUserByName("keyword");
+//        return "main";
+//    }
 
 
 

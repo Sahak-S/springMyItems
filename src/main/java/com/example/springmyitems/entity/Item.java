@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -22,9 +23,12 @@ public class Item {
     private String title;
     private double price;
     private String description;
-    private String picUrl;
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
-    @ManyToOne
-    private Category category;
+
+    @ManyToMany
+    private List<Category> categories;
+
+    @OneToMany(mappedBy = "item")
+    private List<ItemImage> itemImages;
 }
